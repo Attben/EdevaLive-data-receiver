@@ -6,6 +6,29 @@
     <title></title>
 </head>
 <body>
-    Hello world
+    <div id="VehicleEventContainer"></div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io(); //init socket.io
+        var eventBGcolourCounter = 0;
+        var eventBGcolours = ["88FFAA", "88AAFF"];
+
+        socket.on("Add Vehicle", (message) => {
+            AddVehicle(message);
+        });
+
+        function AddVehicle(vehicleEvent) {
+            //alert("Add vehicle");
+            const messageContainer = document.createElement("div");
+            messageContainer.style = "background-color: #" + eventBGcolours[eventBGcolourCounter] + ";";
+            ++eventBGcolourCounter;
+            eventBGcolourCounter %= 2;
+            messageContainer.innerHTML += new Date().toLocaleString() + "<br/>";
+            for (var key in vehicleEvent) {
+                messageContainer.innerHTML += (key + ": " + vehicleEvent[key] + "<br/>");
+            }
+            document.getElementById("VehicleEventContainer").appendChild(messageContainer);
+        }
+    </script>
 </body>
 </html>
