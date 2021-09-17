@@ -1,0 +1,9 @@
+{
+  "name": "edeva-live-data-receiver",
+  "version": "0.0.0",
+  "description": "EdevaLive data receiver",
+  "main": "app.js",
+  "author": {
+    "name": ""
+  }
+}
