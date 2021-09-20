@@ -8,27 +8,53 @@
 <body>
     <div id="VehicleEventContainer"></div>
     <script src="/socket.io/socket.io.js"></script>
-    <script>
+    <script type="text/javascript">
         var socket = io(); //init socket.io
         var eventBGcolourCounter = 0;
         var eventBGcolours = ["88FFAA", "88AAFF"];
 
         socket.on("Add Vehicle", (message) => {
-            AddVehicle(message);
+            printVehicleData(message);
         });
 
-        function AddVehicle(vehicleEvent) {
-            //alert("Add vehicle");
+        //function AddVehicle(vehicleEvent) {
+        //    //alert("Add vehicle");
+        //    const messageContainer = document.createElement("div");
+        //    messageContainer.style = "background-color: #" + eventBGcolours[eventBGcolourCounter] + ";";
+        //    ++eventBGcolourCounter;
+        //    eventBGcolourCounter %= 2;
+        //    messageContainer.innerHTML += new Date().toLocaleString() + "<br/>";
+        //    for (var key in vehicleEvent) {
+        //        messageContainer.innerHTML += (key + ": " + vehicleEvent[key] + "<br/>");
+        //    }
+        //    document.getElementById("VehicleEventContainer").appendChild(messageContainer);
+        //}
+
+        function nestedJSONtoHTML(jsonObj) {
+            let HTMLstring = "";
+            for (var key in jsonObj) {
+                HTMLstring += key + ": ";
+                //If JSON data contains nested objects, go through them recursively.
+                if (jsonObj[key] instanceof Object) {
+                    HTMLstring += "<p style='margin-left: 1em;'>" + nestedJSONtoHTML(jsonObj[key]) + "</p>";
+                }
+                else {
+                    HTMLstring += jsonObj[key] + "<br/>";
+                }
+            }
+            return HTMLstring;
+        }
+
+        function printVehicleData(jsonObj) {
             const messageContainer = document.createElement("div");
             messageContainer.style = "background-color: #" + eventBGcolours[eventBGcolourCounter] + ";";
             ++eventBGcolourCounter;
             eventBGcolourCounter %= 2;
-            messageContainer.innerHTML += new Date().toLocaleString() + "<br/>";
-            for (var key in vehicleEvent) {
-                messageContainer.innerHTML += (key + ": " + vehicleEvent[key] + "<br/>");
-            }
+            let HTMLstring = new Date().toLocaleString() + "<br/>" + nestedJSONtoHTML(jsonObj);
+            messageContainer.innerHTML = HTMLstring;
             document.getElementById("VehicleEventContainer").appendChild(messageContainer);
         }
+
     </script>
 </body>
 </html>
