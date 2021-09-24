@@ -1,5 +1,5 @@
 #!/bin/bash
-for i in {1..10}
+for (( i=1; i<=$1; i++ ))
 do
 	curl --header "Content-type: application/json"\
 	--request POST\
