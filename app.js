@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const http = require('http').createServer(app);
 const { Server } = require('socket.io');
@@ -8,6 +9,8 @@ const io = new Server(http);
 
 app.use(express.json());
 const PORT = 8080;
+//Route strings
+const AddVehicle = "/AddVehicle";
 
 //HTTP requests
 app.get('/', (req, res) => {
@@ -21,7 +24,8 @@ app.post('/', (req, res) => {
     res.send(req.body);
 });
 
-app.post('/AddVehicle', (req, res) => {
+app.options(AddVehicle, cors()) //Enable CORS pre-flight
+app.post(AddVehicle, (req, res) => {
     io.emit("Add Vehicle", req.body);
     res.send("OK");
 });
