@@ -8,6 +8,7 @@ const { Server } = require('socket.io');
 const io = new Server(http);
 
 app.use(express.json());
+app.use(express.static(__dirname + '/public'));
 const PORT = 8080;
 //Route strings
 const AddVehicle = "/AddVehicle";

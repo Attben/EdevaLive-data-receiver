@@ -34,9 +34,12 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="README.md" />
+    <Content Include="Public\Scripts\Generator.js" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Public\" />
     <Folder Include="Pages\" />
+    <Folder Include="Public\Scripts\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
 </Project>

@@ -4,9 +4,30 @@
 <head>
     <meta charset="utf-8" />
     <title>Edeva data receiver</title>
+    <script type="text/javascript" src="/Scripts/Generator.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 </head>
 <body style="background-color: #22EDED;">
+    <div id="EventGenerationControls">
+        <button type="button" onclick="alert(randomInt(0,10));">Random integer</button>
+        <button type="button" onclick="alert(getCurrentUnixTime());">Unix time</button><br />
+        <button type="button" onclick="alert(JSON.stringify(new Axle()));">Generate Axle</button>
+        <button type="button" onclick="alert(JSON.stringify(new ClassEvent()));">Generate Class</button>
+        <button type="button" onclick="alert(JSON.stringify(new Vehicle()));">Generate Vehicle</button><hr />
+
+        <label for="VehicleURL">URL:</label>
+        <input type="text" id="VehicleURL" value="http://localhost:8080/AddVehicle" size=40>
+        <label for="Repetitions">Repetitions:</label>
+        <input type="text" id="Repetitions" value=1><br />
+
+        <label for="EventTypes">Event type:</label>
+        <select name="EventTypes" id="EventTypes">
+            <option value="Axle">Axle</option>
+            <option value="Class">Class</option>
+            <option value="Vehicle">Vehicle</option>
+        </select>
+        <button type="button" onclick="generateEvents();">POST event</button><hr />
+    </div>
     <div id="VehicleEventContainer" style="margin:5% 5% 5% 5%"></div>
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript">
