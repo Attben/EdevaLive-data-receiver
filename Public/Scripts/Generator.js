@@ -39,6 +39,59 @@ class ClassEvent{
 	}
 }
 
+class NumberPlate {
+	constructor() {
+		this.packetCounter = "5846207";
+		this.capture_timestamp = Date.now(); //Unix time in milliseconds?
+		this.frame_timestamp = "0";
+		this.capture_ts = "1632487717667000000";
+		this.current_ts = "343347456943191";
+		this.current_ts2 = "1632487728494066161";
+		this.datetime = "20210924 144848000";
+		this.regUTF8 = "(null)";
+		this.regionUTF8 = "(null)";
+		this.plateCountry = "SWE";
+		this.plateConfidence = "0.803737";
+		this.carState = "lost";
+		this.roiID = "1";
+		this.geotag = {
+			lat: 59.406249,
+			lon: 17.954855
+		};
+		this.imageType = "plate";
+		this.plateImageType = "png";
+		this.plateImageSize = "0";
+		this.carMoveDirection = "in";
+		this.timeProcessing = "0";
+		this.plateCoordinates = [611, 41, 132, 28];
+		this.plateCoordinatesRelative = [0, 0, 0, 0];
+		this.carID = "765101";
+		this.GEOtarget = "Camera";
+		this.camera_info = {
+			SerialNumber: "B8A44F15FF5B",
+			ProdShortName: "AXIS Q1700-LE",
+			MACAddress: "B8:A4:4F:15:FF:5B"
+		};
+		this.sensorProviderID = "an0001_c1";
+		this.type_class = "I";
+		this.vehicle_type = "PB";
+		this.colour = "SVART";
+		this.city = "FAKESVILLE, Sweden";
+		this.owner_type = null;
+		this.vehicle_name = "VOLVO D + XC60";
+		this.vehicle_purchase_type = "XC60";
+		this.year_made = null;
+		this.total_weight = randomInt(1000, 3000);
+		this.emission_class = null;
+		this.nr_passengers = 4;
+		this.height = 1713;
+		this.fuel_1_sound_level = 73;
+		this.fuel_1_co2 = 73;
+		this.post_code = "17270";
+		this.county = null;
+	}
+}
+
 class Vehicle{
 	constructor(){
 		this.actibumpID = randomNumberString(12);
@@ -112,6 +165,9 @@ function generateEvents(){
 		else if(eventType === "Vehicle"){
 			eventData = new Vehicle();
 		}
+		else if (eventType === "Number plate") {
+			eventData = new NumberPlate();
+        }
 		else{
 			eventData = {Text: "null object"};
 		}
