@@ -1,6 +1,14 @@
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVQXYZ";
 const NUMBERS = "0123456789";
 
+class LayoutTestEvent {
+	constructor() {
+		this.eventTime = getCurrentUnixTime();
+		this.eventType = "LayoutTest";
+		this.Text = "Lorem ipsum dolor sit amet";
+	}
+}
+
 class Axle{
 	constructor(){
         this.axleId = "16060021-" + (1632134211000000 + randomInt(0, 1000000));
@@ -169,7 +177,7 @@ function generateEvents(){
 			eventData = new NumberPlate();
         }
 		else{
-			eventData = {Text: "null object"};
+			eventData = new LayoutTestEvent();
 		}
 		sendPOST(url, eventData);
 	}
