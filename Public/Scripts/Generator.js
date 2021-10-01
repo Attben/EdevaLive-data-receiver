@@ -38,7 +38,7 @@ class ClassEvent{
 		this.classdVersion = "1.14";
 		this.totalDistance = 1661;
 		this.vehicleClass = 9;
-		this.eventTime = 1632134211;
+		this.eventTime = getCurrentUnixTime();
 		this.groundFloor = 13927;
 		this.gapTime = 7755;
 		this.hatchLength = 0.46;
