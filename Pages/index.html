@@ -36,68 +36,13 @@
         var socket = io(); //init socket.io
         var eventBGcolourCounter = 0;
         var eventBGcolours = ["88FFAA", "88AAFF"];
-        var latestStandaloneEvent;
         var latestStandaloneEventTime = 0;
-        const maxCorrelationTime = 3; //Arbitrary value
-
-        class SensorEventContainer {
-            constructor(eventData) {
-                this.mainEventContainer = document.createElement("div");
-                this.subEventContainer = document.createElement("div");
-                this.subEventContainer.style = "background-color: #DDDDDD";
-
-                if (latestStandaloneEvent == null ||
-                    eventData.eventTime - latestStandaloneEvent.eventTime > maxCorrelationTime) {
-                    this.mainEventContainer.innerHTML = nestedJSONtoHTML(eventData);
-                    latestStandaloneEvent = this;
-                    document.getElementById("VehicleEventContainer").appendChild(this.mainEventContainer);
-                }
-                else {
-                    let subEvent = document.createElement("div");
-                    subEvent.innerHTML = nestedJSONtoHTML(eventData);
-                    latestStandaloneEvent.subEventContainer.appendChild(subEvent);
-                }
-            }
-        }
+        const maxCorrelationTime = 3; //Arbitrary value (in seconds)
 
         socket.on("Add Vehicle", (message) => {
-            //printVehicleData(message);
-            layoutTest(message);
+            printVehicleData(message);
         });
 
-        function layoutTest(eventData) {
-            //let sensorEvent = new SensorEventContainer(jsonObj);
-            let eventContainer = document.createElement("div");
-            let dataString = nestedJSONtoHTML(eventData);
-
-            let correlationTime = eventData.eventTime - latestStandaloneEventTime;
-            if (correlationTime > maxCorrelationTime) {
-                //Set up layout
-                eventContainer.classList += "row";
-                latestStandaloneEventTime = getCurrentUnixTime();
-                let mainEvent = document.createElement("div");
-                mainEvent.classList += "col";
-                mainEvent.innerHTML += dataString;
-                let subEvents = document.createElement("div");
-                subEvents.classList += "col";
-                subEvents.id = latestStandaloneEventTime.toString();
-                //Add alternating bgcolour
-                eventContainer.style = "background-color: #" + eventBGcolours[eventBGcolourCounter] + ";";
-                ++eventBGcolourCounter;
-                eventBGcolourCounter %= 2;
-                //Add event to page
-                eventContainer.appendChild(mainEvent);
-                eventContainer.appendChild(subEvents);
-                document.getElementById("VehicleEventContainer").appendChild(eventContainer);
-            }
-            else {
-                let subEvent = document.getElementById(latestStandaloneEventTime.toString());
-                subEvent.innerHTML += "SubEvent"
-                eventContainer.innerHTML += dataString;
-                eventContainer.style = "background-color: #DDDDDD; border-style: solid; border-width: 1px;";
-                subEvent.appendChild(eventContainer);
-            }
-        }
 
         function nestedJSONtoHTML(jsonObj) {
             let HTMLstring = "";
@@ -115,13 +60,36 @@
         }
 
         function printVehicleData(jsonObj) {
-            const messageContainer = document.createElement("div");
-            messageContainer.style = "background-color: #" + eventBGcolours[eventBGcolourCounter] + ";";
-            ++eventBGcolourCounter;
-            eventBGcolourCounter %= 2;
-            let HTMLstring = new Date().toLocaleString() + "<br/>" + nestedJSONtoHTML(jsonObj);
-            messageContainer.innerHTML = HTMLstring;
-            document.getElementById("VehicleEventContainer").appendChild(messageContainer);
+            let eventContainer = document.createElement("div");
+            let dataString = nestedJSONtoHTML(eventData);
+
+            let correlationTime = eventData.eventTime - latestStandaloneEventTime;
+            if (correlationTime > maxCorrelationTime) {
+                latestStandaloneEventTime = getCurrentUnixTime();
+                //Set up layout
+                eventContainer.classList += "row";
+                let mainEvent = document.createElement("div");
+                mainEvent.classList += "col";
+                mainEvent.innerHTML += dataString;
+                let subEvents = document.createElement("div");
+                subEvents.classList += "col";
+                subEvents.id = latestStandaloneEventTime.toString();
+                //Add alternating bgcolour
+                eventContainer.style = "background-color: #" + eventBGcolours[eventBGcolourCounter] + ";";
+                ++eventBGcolourCounter;
+                eventBGcolourCounter %= 2;
+                //Add event to page
+                eventContainer.appendChild(mainEvent);
+                eventContainer.appendChild(subEvents);
+                document.getElementById("VehicleEventContainer").appendChild(eventContainer);
+            }
+            else {
+                let subEvent = document.getElementById(latestStandaloneEventTime.toString());
+                subEvent.innerHTML += "SubEvent";
+                eventContainer.innerHTML += dataString;
+                eventContainer.style = "background-color: #DDDDDD; border-style: solid; border-width: 1px;";
+                subEvent.appendChild(eventContainer);
+            }
         }
 
     </script>

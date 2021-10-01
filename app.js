@@ -18,13 +18,6 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/Pages/index.html');
 });
 
-app.post('/', (req, res) => {
-    let requestBody = req.body;
-    console.log(requestBody);
-    requestBody.Text = "Hello, ".concat(requestBody.Text);
-    res.send(req.body);
-});
-
 app.options(AddVehicle, cors()) //Enable CORS pre-flight
 app.post(AddVehicle, (req, res) => {
     io.emit("Add Vehicle", req.body);
